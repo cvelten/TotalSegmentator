@@ -47,6 +47,7 @@ from totalsegmentator.statistics import get_basic_statistics
 
 # Hide nnunetv2 warning: Detected old nnU-Net plans format. Attempting to reconstruct network architecture...
 warnings.filterwarnings("ignore", category=UserWarning, module="nnunetv2")
+warnings.filterwarnings("ignore", category=FutureWarning, module="nnunetv2")  # ignore torch.load warning
 
 
 def _get_full_task_name(task_id: int, src: str="raw"):
@@ -248,6 +249,7 @@ def nnUNetv2_predict(dir_in, dir_out, task_id, model="3d_fullres", folds=None,
         use_folds=folds,
         checkpoint_name=chk,
     )
+    # new nnunetv2 feature: keep dir_out empty to return predictions as return value
     predictor.predict_from_files(dir_in, dir_out,
                                  save_probabilities=save_probabilities, overwrite=not continue_prediction,
                                  num_processes_preprocessing=npp, num_processes_segmentation_export=nps,
